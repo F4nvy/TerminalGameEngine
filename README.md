@@ -1,20 +1,15 @@
 # Terminal Game Engine (TGE)
 
-A lightweight, cross-platform **C++ terminal game engine** for developing games directly inside terminal.
-
+A lightweight, cross-platform **C++ terminal game engine** for developing games directly inside terminal.  
 TGE allows terminal graphics, input handling, and audio processing.
 
 
 ## Features
 
-**Colors:** Pre-defined colors using built-in ANSI color palette.
-
-**Audio:** Simple sound effects and background music playback.
-
-**Smooth Rendering:** Prevents screen flickering during fast redraws.
-
-**Cross-Platform:** Compilable for both Linux and Windows.
-
+**Colors:** Pre-defined colors using built-in ANSI color palette.  
+**Audio:** Simple sound effects and background music playback.  
+**Smooth Rendering:** Prevents screen flickering during fast redraws.  
+**Cross-Platform:** Compilable for both Linux and Windows.  
 **Libraries and accessories:** All libraries, definitions, and color constants are centralized in `tge.hpp`.
 
 
@@ -31,10 +26,8 @@ TGE is made to be easily integrated into any C++ project.
 
 ## How to compile the entire project
 
-TGE is compilable for both Linux and Windows, so you have to use different commands.
-
-The working compiler TGE was tested with is `g++`.
-
+TGE is compilable for both Linux and Windows, so you have to use different commands.  
+The working compiler TGE was tested with is `g++`.  
 Overwrite *FILE_NAME* with the name of your c++ file.
 
 1. Linux:
