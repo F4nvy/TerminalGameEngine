@@ -32,8 +32,8 @@ Overwrite *FILE_NAME* with the name of your c++ file.
 
 1. Linux:
 
-```bash
-    g++ FILE_NAME.cpp TGE/*.cpp -o FILE_NAME -lpthread -ldl -lm
+```cmd
+g++ FILE_NAME.cpp TGE/*.cpp -o FILE_NAME -lpthread -ldl -lm
 ```
 
 2. Windows:
