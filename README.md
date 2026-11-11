@@ -21,7 +21,7 @@ TGE is made to be easily integrated into any C++ project.
 2. Include it at the top of your C++ file:
 
 ```c++
-    #include "tge.hpp"
+#include "tge.hpp"
 ```
 
 ## How to compile the entire project
