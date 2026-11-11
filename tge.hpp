@@ -8,7 +8,7 @@
 #include <string>
 #include <cmath>
 
-#include "miniaudio.h"
+#include "external/miniaudio.h"
 
 #ifdef _WIN32
     #include <windows.h>

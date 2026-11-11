@@ -1,5 +1,5 @@
 #include "tge.hpp"
-#include "miniaudio.h"
+#include "external/miniaudio.h"
 
 Audio::Audio (){
     if (ma_engine_init (0, &soundEngine) == 0) initialized = 1;
