@@ -13,8 +13,6 @@
 #ifdef _WIN32
     #include <windows.h>
     #include <conio.h>
-#else
-    #include <sys/ioctl.h>
 #endif
 
 #define DRED        "5;52"
@@ -119,7 +117,7 @@ class Game {
 
         char waitForInput ();
 
-	Game (const std::string name, const uint8_t width, const uint8_t height);
+	    Game (const std::string name, const uint8_t width, const uint8_t height);
 
         ~Game ();
 };
