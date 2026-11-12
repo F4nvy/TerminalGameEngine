@@ -33,11 +33,11 @@ Overwrite *FILE_NAME* with the name of your c++ file.
 1. Linux:
 
 ```cmd
-g++ FILE_NAME.cpp TGE/*.cpp -o FILE_NAME -lpthread -ldl -lm
+g++ *.cpp -o FILE_NAME -lpthread -ldl -lm
 ```
 
 2. Windows:
 
 ```cmd
-x86_64-w64-mingw32-g++ FILE_NAME.cpp TGE/*.cpp -o FILE_NAME.exe -static -lpthread -lwinmm -lole32
+x86_64-w64-mingw32-g++ *.cpp -o FILE_NAME.exe -static -lpthread -lwinmm -lole32
 ```
