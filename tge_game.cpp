@@ -28,6 +28,8 @@ Game::Game (const std::string name, const uint8_t width, const uint8_t height) :
         system ("stty -icanon -echo");
     #endif
 
+    std::ios::sync_with_stdio (0);
+
     std::cout << "\033]0;" << name << "\007";
     std::cout << "\033[8;" << (int)(height/2) << ";" << (int)width << "t";
 

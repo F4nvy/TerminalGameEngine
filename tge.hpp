@@ -84,6 +84,7 @@ class Screen {
         const Game* GameAdress;
 
         std::vector <std::string> board;
+        std::vector <std::string> prevBoard;
 
         const std::string emptyColor = DGRAY;
 

@@ -13,7 +13,28 @@ void Screen::draw (){
 
         uint16_t topRowOffset = i * width;
         uint16_t bottomRowOffset = (i + 1) * width;
+        
+        bool rowChange = 0;
 
+        for (uint8_t j = 0; j < width; j++){
+
+            std::string& currentTopColor = board [j + topRowOffset];
+            std::string& currentBottomColor = board [j + bottomRowOffset];
+            
+            std::string& currentPrevTopColor = prevBoard [j + topRowOffset];
+            std::string& currentPrevBottomColor = prevBoard [j + bottomRowOffset];
+
+            if (currentTopColor != currentPrevTopColor || currentBottomColor != currentPrevBottomColor){
+                rowChange = 1;
+                break;            
+            }
+        
+        }
+        
+        if (!rowChange) continue;
+
+        buffer += "\033[" + std::to_string (i / 2 + 1) + ";1H";
+    
         for (uint8_t j = 0; j < width; j++){
 
             std::string& currentTopColor = board [j + topRowOffset];
@@ -27,6 +48,9 @@ void Screen::draw (){
             }
 
             buffer += "▄";
+
+            prevBoard [j + topRowOffset] = currentTopColor;
+            prevBoard [j + bottomRowOffset] = currentBottomColor;
 
         }
     }
@@ -139,4 +163,5 @@ void Screen::line (int16_t x1, int16_t y1, int16_t x2, int16_t y2) {
 
 Screen::Screen (const Game* GameAdress, const uint8_t width, const uint8_t height) : GameAdress (GameAdress), width (width), height (height) {
     board.resize (width * height, emptyColor);
+    prevBoard.resize (width * height, "");
 }
