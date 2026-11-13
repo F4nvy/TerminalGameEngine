@@ -77,32 +77,40 @@ public:
     void playMusic (const std::string& filename);
 };
 
+struct Color {
+    uint8_t r;
+    uint8_t g;
+    uint8_t b;
+    
+    bool transparent = false;
+};
+
 class Game;
 
 class Screen {
     private:
         const Game* GameAdress;
 
-        std::vector <std::string> board;
-        std::vector <std::string> prevBoard;
+        std::vector <Color> board;
+        std::vector <Color> prevBoard;
 
-        const std::string emptyColor = DGRAY;
+        const Color emptyColor = {100, 100, 100};
 
-        std::string currentFillColor = BLACK;
-        std::string currentStrokeColor = BLACK;
+        Color currentFillColor = {0, 0, 0};
+        Color currentStrokeColor = {0, 0, 0};
 
     public:
         const uint8_t width;
         const uint8_t height;
 
         void draw ();
-        void clear (const std::string& color);
-        void add (int16_t x, int16_t y, const std::string& color);
-        void fillColor (const std::string& color);
-        void strokeColor (const std::string& color);
+        void clear (const Color color);
+        void add (int16_t x, int16_t y, const Color color);
+        void fillColor (const Color color);
+        void strokeColor (const Color color);
         void fillRect (int16_t x, int16_t y, uint8_t width, uint8_t height);
         void strokeRect (int16_t x, int16_t y, uint8_t width, uint8_t height);
-        void drawSprite (int16_t x, int16_t y, uint8_t width, uint8_t height, const std::vector <std::vector <std::string>>& sprite);
+        void drawSprite (int16_t x, int16_t y, uint8_t width, uint8_t height, const std::vector <std::vector <Color>>& sprite);
         void line (int16_t x1, int16_t y1, int16_t x2, int16_t y2);
 
         Screen (const Game* GameAdress, const uint8_t width, const uint8_t height);

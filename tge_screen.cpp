@@ -6,8 +6,8 @@ void Screen::draw (){
 
     buffer += "\033[H";
 
-    std::string lastTopColor = "";
-    std::string lastBottomColor = "";
+    Color lastTopCol = {0, 0, 0, 1};
+    Color lastBotCol = {0, 0, 0, 1};
 
     for (uint16_t i = 0; i < height; i += 2){
 
@@ -18,13 +18,14 @@ void Screen::draw (){
 
         for (uint8_t j = 0; j < width; j++){
 
-            std::string& currentTopColor = board [j + topRowOffset];
-            std::string& currentBottomColor = board [j + bottomRowOffset];
+            Color& curTopCol = board [j + topRowOffset];
+            Color& curBotCol = board [j + bottomRowOffset];
             
-            std::string& currentPrevTopColor = prevBoard [j + topRowOffset];
-            std::string& currentPrevBottomColor = prevBoard [j + bottomRowOffset];
+            Color& curPrevTopCol = prevBoard [j + topRowOffset];
+            Color& curPrevBotCol = prevBoard [j + bottomRowOffset];
 
-            if (currentTopColor != currentPrevTopColor || currentBottomColor != currentPrevBottomColor){
+            if (curTopCol.r != curPrevTopCol.r || curTopCol.g != curPrevTopCol.g || curTopCol.b != curPrevTopCol.b || curTopCol.transparent != curPrevTopCol.transparent ||
+                curBotCol.r != curPrevBotCol.r || curBotCol.g != curPrevBotCol.g || curBotCol.b != curPrevBotCol.b || curBotCol.transparent != curPrevBotCol.transparent){
                 rowChange = 1;
                 break;            
             }
@@ -37,20 +38,22 @@ void Screen::draw (){
     
         for (uint8_t j = 0; j < width; j++){
 
-            std::string& currentTopColor = board [j + topRowOffset];
-            std::string& currentBottomColor = board [j + bottomRowOffset];
+            Color& curTopCol = board [j + topRowOffset];
+            Color& curBotCol = board [j + bottomRowOffset];
 
-            if (currentTopColor != lastTopColor || currentBottomColor != lastBottomColor){
-                buffer += "\033[48;" + board [j + topRowOffset] + ";" + "38;" + board [j + bottomRowOffset] + "m";
+            if (curTopCol.r != lastTopCol.r || curTopCol.g != lastTopCol.g || curTopCol.b != lastTopCol.b || curTopCol.transparent != lastTopCol.transparent ||
+                curBotCol.r != lastBotCol.r || curBotCol.g != lastBotCol.g || curBotCol.b != lastBotCol.b || curBotCol.transparent != lastBotCol.transparent){
+                buffer += "\033[48;2;" + std::to_string (curTopCol.r) + ";" + std::to_string (curTopCol.g) + ";" + std::to_string (curTopCol.b) + ";" + "38;2;" +
+                            std::to_string (curBotCol.r) + ";" + std::to_string (curBotCol.g) + ";" + std::to_string (curBotCol.b) + "m";
 
-                lastTopColor = currentTopColor;
-                lastBottomColor = currentBottomColor;
+                lastTopCol = curTopCol;
+                lastBotCol = curBotCol;
             }
 
             buffer += "▄";
 
-            prevBoard [j + topRowOffset] = currentTopColor;
-            prevBoard [j + bottomRowOffset] = currentBottomColor;
+            prevBoard [j + topRowOffset] = curTopCol;
+            prevBoard [j + bottomRowOffset] = curBotCol;
 
         }
     }
@@ -60,7 +63,7 @@ void Screen::draw (){
     std::cout << buffer << std::flush;
 }
 
-void Screen::clear (const std::string& color){
+void Screen::clear (const Color color){
     for (uint8_t i = 0; i < height; i++){
         for (uint8_t j = 0; j < width; j++){
 
@@ -70,8 +73,8 @@ void Screen::clear (const std::string& color){
     }
 }
 
-void Screen::add (int16_t x, int16_t y, const std::string& color){
-    if (color == "") return;
+void Screen::add (int16_t x, int16_t y, const Color color){
+    if (color.transparent == 1) return;
 
     if (x < 0 || y < 0 || x >= width || y >= height) return;
 
@@ -80,11 +83,11 @@ void Screen::add (int16_t x, int16_t y, const std::string& color){
     board [boardPos] = color;
 }
 
-void Screen::fillColor (const std::string& color){
+void Screen::fillColor (const Color color){
     currentFillColor = color;
 }
 
-void Screen::strokeColor (const std::string& color){
+void Screen::strokeColor (const Color color){
     currentStrokeColor = color;
 }
 
@@ -122,13 +125,13 @@ void Screen::strokeRect (int16_t x, int16_t y, uint8_t width, uint8_t height){
     }
 }
 
-void Screen::drawSprite (int16_t x, int16_t y, uint8_t width, uint8_t height, const std::vector <std::vector <std::string>>& sprite) {
+void Screen::drawSprite (int16_t x, int16_t y, uint8_t width, uint8_t height, const std::vector <std::vector <Color>>& sprite) {
     if (width == 0 || height == 0) return;
 
     for (uint8_t i = 0; i < height; i++){
         for (uint8_t j = 0; j < width; j++){
 
-            std::string color = sprite [i][j];
+            Color color = sprite [i][j];
 
             add (x + j, y + i, color);
 
@@ -163,5 +166,5 @@ void Screen::line (int16_t x1, int16_t y1, int16_t x2, int16_t y2) {
 
 Screen::Screen (const Game* GameAdress, const uint8_t width, const uint8_t height) : GameAdress (GameAdress), width (width), height (height) {
     board.resize (width * height, emptyColor);
-    prevBoard.resize (width * height, "");
+    prevBoard.resize (width * height, {0, 0, 0, 1});
 }
