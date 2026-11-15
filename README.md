@@ -40,7 +40,10 @@ TGE is made to be easily integrated into any C++ project.
 ## How to compile the entire project
 
 TGE is compilable on Linux as ELF (for Linux) and .exe (for Windows), so you have to use different commands.  
-The working compiler TGE was tested with is `g++`.  
+The working compiler TGE was tested with is `g++`. 
+
+`Os` and `-s` are optimizing the compiled program. You can omit this during testing for faster compiling.
+ 
 Replace *FILE_NAME* with the name of your C++ file.
 
 1. ELF:
