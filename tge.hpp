@@ -38,6 +38,9 @@ struct Color {
     uint8_t b;
     
     bool transparent = false;
+
+    bool operator == (const Color& other) const;
+    bool operator != (const Color& other) const;
 };
 
 class Game;
@@ -61,8 +64,10 @@ class Screen {
         void draw ();
         void clear (const Color color);
         void add (int16_t x, int16_t y, const Color color);
+
         void fillColor (const Color color);
         void strokeColor (const Color color);
+        
         void fillRect (int16_t x, int16_t y, uint8_t width, uint8_t height);
         void strokeRect (int16_t x, int16_t y, uint8_t width, uint8_t height);
         void drawSprite (int16_t x, int16_t y, uint8_t width, uint8_t height, const std::vector <std::vector <Color>>& sprite);

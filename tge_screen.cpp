@@ -1,5 +1,13 @@
 #include "tge.hpp"
 
+bool Color::operator == (const Color& other) const {
+    return r == other.r && g == other.g && b == other.b && transparent == other.transparent;
+}
+
+bool Color::operator != (const Color& other) const {
+    return !(*this == other);
+}
+
 void Screen::draw (){
     std::string buffer;
     buffer.reserve (width * height * 20);
@@ -24,8 +32,7 @@ void Screen::draw (){
             Color& curPrevTopCol = prevBoard [j + topRowOffset];
             Color& curPrevBotCol = prevBoard [j + bottomRowOffset];
 
-            if (curTopCol.r != curPrevTopCol.r || curTopCol.g != curPrevTopCol.g || curTopCol.b != curPrevTopCol.b || curTopCol.transparent != curPrevTopCol.transparent ||
-                curBotCol.r != curPrevBotCol.r || curBotCol.g != curPrevBotCol.g || curBotCol.b != curPrevBotCol.b || curBotCol.transparent != curPrevBotCol.transparent){
+            if (curTopCol != curPrevTopCol || curBotCol != curPrevBotCol){
                 rowChange = 1;
                 break;            
             }
@@ -41,10 +48,9 @@ void Screen::draw (){
             Color& curTopCol = board [j + topRowOffset];
             Color& curBotCol = board [j + bottomRowOffset];
 
-            if (curTopCol.r != lastTopCol.r || curTopCol.g != lastTopCol.g || curTopCol.b != lastTopCol.b || curTopCol.transparent != lastTopCol.transparent ||
-                curBotCol.r != lastBotCol.r || curBotCol.g != lastBotCol.g || curBotCol.b != lastBotCol.b || curBotCol.transparent != lastBotCol.transparent){
-                buffer += "\033[48;2;" + std::to_string (curTopCol.r) + ";" + std::to_string (curTopCol.g) + ";" + std::to_string (curTopCol.b) + ";" + "38;2;" +
-                            std::to_string (curBotCol.r) + ";" + std::to_string (curBotCol.g) + ";" + std::to_string (curBotCol.b) + "m";
+            if (curTopCol != lastTopCol || curBotCol != lastBotCol){
+                buffer += "\033[48;2;" + std::to_string (curTopCol.r) + ";" + std::to_string (curTopCol.g) + ";" + std::to_string (curTopCol.b) + ";" +
+                            "38;2;" + std::to_string (curBotCol.r) + ";" + std::to_string (curBotCol.g) + ";" + std::to_string (curBotCol.b) + "m";
 
                 lastTopCol = curTopCol;
                 lastBotCol = curBotCol;
