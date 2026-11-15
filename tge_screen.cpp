@@ -9,7 +9,7 @@ void Screen::draw (){
     Color lastTopCol = {0, 0, 0, 1};
     Color lastBotCol = {0, 0, 0, 1};
 
-    for (uint16_t i = 0; i < height; i += 2){
+    for (uint8_t i = 0; i < height; i += 2){
 
         uint16_t topRowOffset = i * width;
         uint16_t bottomRowOffset = (i + 1) * width;
