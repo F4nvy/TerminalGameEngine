@@ -68,7 +68,8 @@ int main (){
     Game game ("My Terminal Game :-)", 120, 70);
     
     // music.mp3 has to be in the same folder
-    //game.audio.playMusic ("music.mp3");
+    // plays in loop
+    game.audio.playMusic ("music.mp3");
 
     int16_t x = 30;
     int16_t y = 20;
@@ -97,7 +98,7 @@ int main (){
         if (input == 'd' || input == 'D') x++;
         
         // sound.mp3 has to be in the same folder
-        //game.audio.playSound ("sound.mp3");
+        game.audio.playSound ("sound.mp3");
         
         if (input == 'q' || input == 'Q') break;
         
