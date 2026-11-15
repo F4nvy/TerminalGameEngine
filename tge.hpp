@@ -15,51 +15,6 @@
     #include <conio.h>
 #endif
 
-#define DRED        "5;52"
-#define RED         "5;124"
-#define LRED        "5;196"
-#define ORANGE      "5;166"
-#define LORANGE     "5;208"
-#define PINK        "5;198"
-#define LPINK       "5;212"
-
-#define GOLD        "5;178"
-#define YELLOW      "5;220"
-#define LYELLOW     "5;226"
-
-#define DGREEN      "5;22"
-#define GREEN       "5;28"
-#define LGREEN      "5;46"
-#define LIME        "5;118"
-#define OLIVE       "5;58"
-
-#define NAVY        "5;17"
-#define DBLUE       "5;19"
-#define BLUE        "5;27"
-#define LBLUE       "5;39"
-#define SKYBLUE     "5;117"
-#define TEAL        "5;30"
-#define LTEAL       "5;51"
-
-#define DPURPLE     "5;54"
-#define PURPLE      "5;90"
-#define LPURPLE     "5;129"
-#define VIOLET      "5;141"
-
-#define DBROWN      "5;94"
-#define BROWN       "5;130"
-#define LBROWN      "5;172"
-#define TAN         "5;180"
-#define BEIGE       "5;223"
-
-#define BLACK       "5;16"
-#define VDGRAY      "5;234"
-#define DGRAY       "5;238"
-#define GRAY        "5;242"
-#define LGRAY       "5;247"
-#define VLGRAY      "5;251"
-#define WHITE       "5;255"
-
 class Audio {
 private:
     ma_engine soundEngine;
