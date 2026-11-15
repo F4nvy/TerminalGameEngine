@@ -57,3 +57,85 @@ g++ -Os -s FILE_NAME.cpp TerminalGameEngine/*.cpp -o FILE_NAME -pthread -ldl -lm
 ```cmd
 x86_64-w64-mingw32-g++ -Os -s FILE_NAME.cpp TerminalGameEngine/*.cpp -o FILE_NAME.exe -static -lwinmm -lole32
 ```
+
+
+## Example
+
+```C++
+#include "TerminalGameEngine/tge.hpp"
+
+int main (){
+    Game game ("My Terminal Game :-)", 120, 70);
+    
+    // music.mp3 has to be in the same folder
+    //game.audio.playMusic ("music.mp3");
+
+    int16_t x = 30;
+    int16_t y = 20;
+    uint8_t size = 12;
+    
+    while (1){
+
+        game.screen.clear ({100, 100, 100}); // RGB
+
+        game.screen.strokeColor ({255, 255, 255});
+        game.screen.line (0, 0, game.screen.width, game.screen.height);
+
+        game.screen.fillColor ({220, 20, 20});
+        game.screen.fillRect (x, y, size, size);
+
+        game.screen.strokeColor ({20, 255, 100});
+        game.screen.strokeRect (x, y, size, size);
+        
+        game.screen.draw ();
+
+        char input = game.waitForInput ();
+
+        if (input == 'w' || input == 'W') y--;
+        if (input == 's' || input == 'S') y++;
+        if (input == 'a' || input == 'A') x--;
+        if (input == 'd' || input == 'D') x++;
+        
+        // sound.mp3 has to be in the same folder
+        //game.audio.playSound ("sound.mp3");
+        
+        if (input == 'q' || input == 'Q') break;
+        
+    }
+
+    return 0;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
