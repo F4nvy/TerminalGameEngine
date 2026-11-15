@@ -140,8 +140,8 @@ void Screen::drawSprite (int16_t x, int16_t y, uint8_t width, uint8_t height, co
 }
 
 void Screen::line (int16_t x1, int16_t y1, int16_t x2, int16_t y2) {
-    int16_t xDiff = std::abs (x2 - x1);
-    int16_t yDiff = std::abs (y2 - y1);
+    int16_t xDiff = (x2 > x1) ? (x2 - x1) : (x1 - x2);
+    int16_t yDiff = (y2 > y1) ? (y2 - y1) : (y1 - y2);
     int16_t xStep = (x1 < x2) ? 1 : -1;
     int16_t yStep = (y1 < y2) ? 1 : -1;
     int16_t error = xDiff - yDiff;

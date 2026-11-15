@@ -1,18 +1,18 @@
 #pragma once
 
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
 #include <cstdint>
 #include <vector>
 #include <string>
-#include <cmath>
 
 #include "external/miniaudio.h"
 
 #ifdef _WIN32
     #include <windows.h>
     #include <conio.h>
+#else
+    #include <termios.h>
+    #include <unistd.h>
 #endif
 
 class Audio {
@@ -72,6 +72,14 @@ class Screen {
 };
 
 class Game {
+    private:
+        #ifdef _WIN32
+            DWORD origOutMode = 0;
+            DWORD origInMode = 0;
+        #else
+            struct termios origTermios{};
+        #endif
+
     public:
         const std::string name;
 
