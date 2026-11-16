@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <vector>
 #include <string>
+#include <chrono>
+#include <thread>
 
 #include "external/miniaudio.h"
 
@@ -77,24 +79,25 @@ class Screen {
 };
 
 class Game {
-    private:
-        #ifdef _WIN32
-            DWORD origOutMode = 0;
-            DWORD origInMode = 0;
-        #else
-            struct termios origTermios{};
-        #endif
-
+	private:
+		#ifdef _WIN32
+	       	unsigned long origOutMode = 0;
+	       	unsigned int origCOdePage = 0;
+	    #else
+	       	termios origTermios {};
+	  	#endif
     public:
-        const char* name;
+        const std::string name;
 
         Screen screen;
 
         Audio audio;
 
-        char waitForInput ();
+        char getInput ();
 
-	    Game (const char* name, const uint8_t width, const uint8_t height);
+		void sleepFor (uint16_t time);
+		
+	    Game (const std::string name, const uint8_t width, const uint8_t height);
 
         ~Game ();
 };

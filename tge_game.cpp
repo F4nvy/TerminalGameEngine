@@ -1,77 +1,67 @@
 #include "tge.hpp"
 
-char Game::waitForInput (){
+char Game::getInput (){
+	char lastKey = 0;
+    
     #ifdef _WIN32
-        return _getch ();
+        while (_kbhit ()){
+            lastKey = _getch ();
+        }
     #else
-        return std::cin.get ();
+        char ch = 0;
+        
+        while (read (STDIN_FILENO, &ch, 1) > 0){
+            lastKey = static_cast <char> (ch);
+        }
     #endif
+    
+    return lastKey;
 }
 
-Game::Game (const char* name, const uint8_t width, const uint8_t height) : name (name), screen (this, width, height){
+void Game::sleepFor (uint16_t time){
+	std::this_thread::sleep_for (std::chrono::milliseconds (time));
+}
+
+Game::Game (const std::string name, const uint8_t width, const uint8_t height) : name (name), screen (this, width, height){
     if (width == 0 || height == 0) return;
 
-    int cols = (width > 2) ? width : 2;
-    int rows = (height / 2 > 2) ? (height / 2) : 2;
+	#ifdef _WIN32
+		HANDLE hOut = GetStdHandle (STD_OUTPUT_HANDLE);
+		GetConsoleMode (hOut, &origOutMode);
+		SetConsoleMode (hOut, origOutMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
 
-    #ifdef _WIN32
-        SetConsoleOutputCP (CP_UTF8);
-        SetConsoleCP (CP_UTF8);
+		origCodePage = GetConsoleOutputCP ();
+		SetConsoleOutputCP (CP_UTF8);
+	#else
+		tcgetattr (STDIN_FILENO, &origTermios);
+		termios raw = origTermios;
+		
+		raw.c_lflag &= ~(ICANON | ECHO); // turn off waiting for Enter
+		raw.c_cc [VMIN] = 0; // read () is not waiting for any byte
+		raw.c_cc [VTIME] = 0; // zero timeout
+		tcsetattr (STDIN_FILENO, TCSANOW, &raw);
+	#endif
 
-        HANDLE hOut = GetStdHandle (STD_OUTPUT_HANDLE);
-        if (hOut != INVALID_HANDLE_VALUE && GetConsoleMode(hOut, &origOutMode)){
-            DWORD outMode = origOutMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-            SetConsoleMode (hOut, outMode);
-        }
+	std::string initializationSeq;
 
-        HANDLE hIn = GetStdHandle (STD_INPUT_HANDLE);
-        if (hIn != INVALID_HANDLE_VALUE && GetConsoleMode (hIn, &origInMode)){
-            DWORD inMode = (origInMode | ENABLE_EXTENDED_FLAGS) & ~(ENABLE_ECHO_INPUT | ENABLE_LINE_INPUT | ENABLE_QUICK_EDIT_MODE);
-            SetConsoleMode (hIn, inMode);
-        }
-    #else
-        if (tcgetattr (STDIN_FILENO, &origTermios) == 0){
-            struct termios raw = origTermios;
-            raw.c_lflag &= ~(ICANON | ECHO);
-            tcsetattr (STDIN_FILENO, TCSANOW, &raw);
-        }
-    #endif
+	initializationSeq += "\033[?1049h"; // alternate buffer
+	initializationSeq += "\033[8;" + std::to_string (height / 2) + ";" + std::to_string (width) + "t";
+	initializationSeq += "\033[?7l"; // turn off line ending
+	initializationSeq += "\033[?25l"; // hide cursor
+    initializationSeq += "\033]0;" + name + "\007";
+    initializationSeq += "\033[2J\033[H"; // clear terminal and set cursor to [1, 1]
 
-    std::ios::sync_with_stdio (false);
-    std::cin.tie (nullptr);
-
-    std::cout << "\033]0;" << name << "\007" << "\033[?1049h" << "\033[?25l" << std::flush;
-
-    #ifdef _WIN32
-        if (hOut != INVALID_HANDLE_VALUE){
-            COORD maxSize = GetLargestConsoleWindowSize (hOut);
-            SHORT targetCols = (cols < maxSize.X) ? static_cast <SHORT> (cols) : maxSize.X;
-            SHORT targetRows = (rows < maxSize.Y) ? static_cast <SHORT> (rows) : maxSize.Y;
-
-            SMALL_RECT tinyRect = {0, 0, 1, 1};
-            SetConsoleWindowInfo (hOut, TRUE, &tinyRect);
-
-            COORD bufferSize = {targetCols, targetRows};
-            SetConsoleScreenBufferSize (hOut, bufferSize);
-
-            SMALL_RECT windowRect = {0, 0, static_cast <SHORT> (targetCols - 1), static_cast <SHORT> (targetRows - 1)};
-            SetConsoleWindowInfo (hOut, TRUE, &windowRect);
-        }
-    #else
-        std::cout << "\033[8;" << rows << ";" << cols << "t" << std::flush;
-    #endif
+    std::cout << initializationSeq << std::flush;
 }
 
 Game::~Game (){
-    std::cout << "\033[?25h" << "\033[?1049l" << std::flush;
+    std::cout << "\033[0m\033[?7h\033[?25h\033[2J\033[H\033[?1049h" << std::flush;
 
     #ifdef _WIN32
-        HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-        if (hOut != INVALID_HANDLE_VALUE) SetConsoleMode(hOut, origOutMode);
-
-        HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
-        if (hIn != INVALID_HANDLE_VALUE) SetConsoleMode(hIn, origInMode);
+        HANDLE hOut = GetStdHandle (STD_OUTPUT_HANDLE);
+        SetConsoleMode (hOut, origOutMode);
+		SetConsoleOutputCP (origCodePage);
     #else
-        tcsetattr(STDIN_FILENO, TCSANOW, &origTermios);
+        tcsetattr (STDIN_FILENO, TCSANOW, &origTermios);
     #endif
 }
