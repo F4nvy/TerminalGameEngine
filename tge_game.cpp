@@ -8,7 +8,7 @@ char Game::waitForInput (){
     #endif
 }
 
-Game::Game (const std::string name, const uint8_t width, const uint8_t height) : name (name), screen (this, width, height){
+Game::Game (const char* name, const uint8_t width, const uint8_t height) : name (name), screen (this, width, height){
     if (width == 0 || height == 0) return;
 
     int cols = (width > 2) ? width : 2;

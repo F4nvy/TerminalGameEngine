@@ -86,7 +86,7 @@ class Game {
         #endif
 
     public:
-        const std::string name;
+        const char* name;
 
         Screen screen;
 
@@ -94,7 +94,7 @@ class Game {
 
         char waitForInput ();
 
-	    Game (const std::string name, const uint8_t width, const uint8_t height);
+	    Game (const char* name, const uint8_t width, const uint8_t height);
 
         ~Game ();
 };
