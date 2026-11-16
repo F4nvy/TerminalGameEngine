@@ -90,7 +90,7 @@ int main (){
         
         game.screen.draw ();
 
-        char input = game.waitForInput ();
+        char input = game.getInput ();
 
         if (input == 'w' || input == 'W') y--;
         if (input == 's' || input == 'S') y++;
@@ -101,42 +101,12 @@ int main (){
         game.audio.playSound ("sound.mp3");
         
         if (input == 'q' || input == 'Q') break;
+
+		// sleeps for 20 ms
+        game.sleepFor (20);
         
     }
 
     return 0;
 }
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
