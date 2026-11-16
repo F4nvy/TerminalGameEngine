@@ -102,8 +102,7 @@ int main (){
         
         if (input == 'q' || input == 'Q') break;
 
-		// sleeps for 20 ms
-        game.sleepFor (20);
+        game.sleepFor (20); // sleeps for 20 ms
         
     }
 
