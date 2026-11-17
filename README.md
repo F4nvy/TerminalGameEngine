@@ -63,6 +63,7 @@ x86_64-w64-mingw32-g++ -Os -s FILE_NAME.cpp TerminalGameEngine/*.cpp -o FILE_NAM
 
 ```C++
 #include "TerminalGameEngine/tge.hpp"
+#include "TerminalGameEngine/tge_audio.hpp"
 
 int main (){
     Game game ("My Terminal Game :-)", 120, 70);
