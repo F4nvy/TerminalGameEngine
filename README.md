@@ -7,7 +7,8 @@ TGE allows terminal graphics, input handling, and audio processing.
 ## Features
 
 **Colors:** RGB color system using 24-bit TrueColor RGB.  
-**Audio:** Simple sound effects and background music playback.  
+**Audio:** Simple sound effects and background music playback.
+**PNGs:** NEW functions for reading and drawing PNG images.
 **Smooth Rendering:** Prevents screen flickering during fast redraws.    
 **Libraries and accessories:** All libraries and definitions are centralized in `tge.hpp`.
 
@@ -57,6 +58,7 @@ g++ -Os -s FILE_NAME.cpp TerminalGameEngine/*.cpp -o FILE_NAME -pthread -ldl -lm
 ```cmd
 x86_64-w64-mingw32-g++ -Os -s FILE_NAME.cpp TerminalGameEngine/*.cpp -o FILE_NAME.exe -static -lwinmm -lole32
 ```
+If you don't use any audio, you can delete `-pthread -ldl -lm` for Linux and `-static -lwinmm -lole32` for Windows
 
 
 ## Example
@@ -67,7 +69,12 @@ x86_64-w64-mingw32-g++ -Os -s FILE_NAME.cpp TerminalGameEngine/*.cpp -o FILE_NAM
 
 int main (){
     Game game ("My Terminal Game :-)", 120, 70);
-    Audio audio;
+	Audio audio;
+
+	Png sprite (); // initialization
+
+	// image.png has to be in the same folder
+	sprite.load ("image.png");
     
     // music.mp3 has to be in the same folder
     // plays in loop
@@ -89,6 +96,8 @@ int main (){
 
         game.screen.strokeColor ({20, 255, 100});
         game.screen.strokeRect (x, y, size, size);
+
+        game.screen.drawSprite (50, 30, sprite);
         
         game.screen.draw ();
 
