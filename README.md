@@ -58,7 +58,7 @@ g++ -Os -s FILE_NAME.cpp TerminalGameEngine/*.cpp -o FILE_NAME -pthread -ldl -lm
 ```cmd
 x86_64-w64-mingw32-g++ -Os -s FILE_NAME.cpp TerminalGameEngine/*.cpp -o FILE_NAME.exe -static -lwinmm -lole32
 ```
-If you don't use any audio, you can delete `-pthread -ldl -lm` for Linux and `-static -lwinmm -lole32` for Windows
+If you don't use any audio, you can delete `-pthread -ldl -lm` (for Linux) and `-static -lwinmm -lole32` (for Windows).
 
 
 ## Example
