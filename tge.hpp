@@ -15,15 +15,29 @@
     #include <unistd.h>
 #endif
 
+#include "external/lodepng.h"
+
 struct Color {
     uint8_t r;
     uint8_t g;
     uint8_t b;
     
-    bool transparent = false;
+    bool a = 1;
 
     bool operator == (const Color& other) const;
     bool operator != (const Color& other) const;
+};
+
+class Png {
+	public:
+		uint32_t width = 0;
+		uint32_t height = 0;
+
+		std::vector <uint8_t> data;
+
+		void load (const std::string& file);
+
+		uint8_t	ch (uint8_t x, uint8_t y, uint8_t num);
 };
 
 class Game;
@@ -53,7 +67,7 @@ class Screen {
         
         void fillRect (int16_t x, int16_t y, uint8_t width, uint8_t height);
         void strokeRect (int16_t x, int16_t y, uint8_t width, uint8_t height);
-        void drawSprite (int16_t x, int16_t y, uint8_t width, uint8_t height, const std::vector <std::vector <Color>>& sprite);
+        void drawPng (int16_t x, int16_t y, Png& png);
         void line (int16_t x1, int16_t y1, int16_t x2, int16_t y2);
 
         Screen (const Game* GameAdress, const uint8_t width, const uint8_t height);

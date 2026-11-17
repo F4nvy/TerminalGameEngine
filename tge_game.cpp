@@ -1,5 +1,17 @@
 #include "tge.hpp"
 
+void Png::load (const std::string& file){
+	data.clear ();
+
+	lodepng::decode (data, width, height, file);
+}
+
+uint8_t Png::ch (uint8_t x, uint8_t y, uint8_t num){
+	uint32_t index = 4 * (y * width + x) + num;
+
+	return data [index];
+}
+
 char Game::getInput (){
 	char lastKey = 0;
     

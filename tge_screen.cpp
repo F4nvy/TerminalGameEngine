@@ -1,7 +1,7 @@
 #include "tge.hpp"
 
 bool Color::operator == (const Color& other) const {
-    return r == other.r && g == other.g && b == other.b && transparent == other.transparent;
+    return r == other.r && g == other.g && b == other.b && a == other.a;
 }
 
 bool Color::operator != (const Color& other) const {
@@ -14,8 +14,8 @@ void Screen::draw (){
 
     buffer += "\033[H";
 
-    Color lastTopCol = {0, 0, 0, 1};
-    Color lastBotCol = {0, 0, 0, 1};
+    Color lastTopCol = {0, 0, 0, 0};
+    Color lastBotCol = {0, 0, 0, 0};
 
     for (uint8_t i = 0; i < height; i += 2){
 
@@ -80,7 +80,7 @@ void Screen::clear (const Color color){
 }
 
 void Screen::add (int16_t x, int16_t y, const Color color){
-    if (color.transparent == 1) return;
+    if (color.a == 0) return;
 
     if (x < 0 || y < 0 || x >= width || y >= height) return;
 
@@ -131,17 +131,14 @@ void Screen::strokeRect (int16_t x, int16_t y, uint8_t width, uint8_t height){
     }
 }
 
-void Screen::drawSprite (int16_t x, int16_t y, uint8_t width, uint8_t height, const std::vector <std::vector <Color>>& sprite) {
-    if (width == 0 || height == 0) return;
+void Screen::drawPng (int16_t x, int16_t y, Png& png){
+    for (uint8_t i = 0; i < png.width; i++){
+   		for (uint8_t j = 0; j < png.height; j++){
 
-    for (uint8_t i = 0; i < height; i++){
-        for (uint8_t j = 0; j < width; j++){
-
-            Color color = sprite [i][j];
-
-            add (x + j, y + i, color);
-
-        }
+      		fillColor ({png.ch (j, i, 0), png.ch (j, i, 1), png.ch (j, i, 2), (bool) png.ch (j, i, 3)});
+    		fillRect (x + j, y + i, 1, 1);
+    			
+    	}		
     }
 }
 
