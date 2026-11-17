@@ -7,8 +7,6 @@
 #include <chrono>
 #include <thread>
 
-#include "external/miniaudio.h"
-
 #ifdef _WIN32
     #include <windows.h>
     #include <conio.h>
@@ -16,23 +14,6 @@
     #include <termios.h>
     #include <unistd.h>
 #endif
-
-class Audio {
-private:
-    ma_engine soundEngine;
-    ma_sound backgroundMusic;
-    bool initialized = 0;
-    bool backgroundMusicLoaded = 0;
-
-public:
-    Audio ();
-
-    ~Audio ();
-
-    void playSound (const std::string& filename);
-
-    void playMusic (const std::string& filename);
-};
 
 struct Color {
     uint8_t r;
@@ -90,8 +71,6 @@ class Game {
         const std::string name;
 
         Screen screen;
-
-        Audio audio;
 
         char getInput ();
 
