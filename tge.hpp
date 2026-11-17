@@ -82,7 +82,7 @@ class Game {
 	private:
 		#ifdef _WIN32
 	       	unsigned long origOutMode = 0;
-	       	unsigned int origCOdePage = 0;
+	       	unsigned int origCodePage = 0;
 	    #else
 	       	termios origTermios {};
 	  	#endif
