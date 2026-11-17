@@ -1,5 +1,7 @@
 #pragma once
 
+#define MINIAUDIO_IMPLEMENTATION
+
 #include <string>
 
 #include "external/miniaudio.h"
