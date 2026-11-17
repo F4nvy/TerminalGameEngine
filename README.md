@@ -67,10 +67,11 @@ x86_64-w64-mingw32-g++ -Os -s FILE_NAME.cpp TerminalGameEngine/*.cpp -o FILE_NAM
 
 int main (){
     Game game ("My Terminal Game :-)", 120, 70);
+    Audio audio;
     
     // music.mp3 has to be in the same folder
     // plays in loop
-    game.audio.playMusic ("music.mp3");
+    audio.playMusic ("music.mp3");
 
     int16_t x = 30;
     int16_t y = 20;
@@ -99,7 +100,7 @@ int main (){
         if (input == 'd' || input == 'D') x++;
         
         // sound.mp3 has to be in the same folder
-        game.audio.playSound ("sound.mp3");
+        audio.playSound ("sound.mp3");
         
         if (input == 'q' || input == 'Q') break;
 
