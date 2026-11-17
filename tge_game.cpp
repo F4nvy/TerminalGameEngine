@@ -67,7 +67,7 @@ Game::Game (const std::string name, const uint8_t width, const uint8_t height) :
 }
 
 Game::~Game (){
-    std::cout << "\033[0m\033[?7h\033[?25h\033[2J\033[H\033[?1049h" << std::flush;
+    std::cout << "\033[0m\033[?7h\033[?25h\033[2J\033[H\033[?1049l" << std::flush;
 
     #ifdef _WIN32
         HANDLE hOut = GetStdHandle (STD_OUTPUT_HANDLE);
